@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.ChapterDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="Chapter">
+      insert into chapter values (#{id},#{title},#{size},#{duration},#{downPath},#{uploadDate},#{album_id})
+    </insert>
+    <!--查一个-->
+    <select id="queryOne" parameterType="Chapter" resultType="Chapter">
+      select * from chapter where id=#{id}
+    </select>
+    <!--根据专辑删除章节-->
+    <delete id="delete" parameterType="Chapter">
+        delete from chapter
+              <if test="album_id!=null and album_id!=''">
+                  where album_id=#{album_id}
+              </if>
+              <if test="id!=null and id!=''">
+                  where id=#{id}
+              </if>
+    </delete>
+</mapper>

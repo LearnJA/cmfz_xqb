@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.AdmainDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="Admain" useGeneratedKeys="true">
+        insert into admain values (#{id},#{name},#{password},#{status})
+    </insert>
+    <!--修改密码-->
+    <update id="update" parameterType="Admain">
+        update admain set name=#{name},password=#{password},status=#{status} where id=#{id}
+    </update>
+    <!-- 查一个 -->
+    <select id="queryOne" parameterType="Admain" resultType="Admain">
+        select id,name,password,status from admain where name=#{name} and password=#{password}
+    </select>
+</mapper>

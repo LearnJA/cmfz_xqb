@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.UserDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="User" useGeneratedKeys="true">
+      insert into user values (#{id},#{phone},#{username},#{password},#{salt},#{province},#{city},#{nickName},#{sex},#{sign},#{headPic},#{date},#{status})
+    </insert>
+    <!--修改-->
+    <update id="update" parameterType="User">
+        update user set phone=#{phone},username=#{username},password=#{password},
+                province=#{province},city=#{city},nickName=#{nickName},sex=#{sex},
+                sign=#{sign},headPic=#{headPic},date=#{date},status=#{status}
+                where id=#{id}
+    </update>
+    <!-- 查一个 -->
+    <select id="queryOne" parameterType="User" resultType="User">
+      select * from user where phone=#{phone}
+    </select>
+    <!--根据id查某个用户-->
+    <select id="queryOneId" parameterType="User" resultType="User">
+      select * from user where id=#{id}
+    </select>
+    <!--查所有-->
+    <select id="queryAll" resultType="User">
+        select * from user
+    </select>
+    <!--根据状态查所有-->
+    <select id="queryOneAll" parameterType="User" resultType="User">
+      select * from user where status=#{status}
+    </select>
+    <!--统计状态用户数量-->
+    <select id="queryAllCount" resultType="User">
+      select count(id) from user where status=#{status}
+    </select>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.BannerDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="Banner" useGeneratedKeys="true">
+      insert into banner values (#{id},#{title},#{imgPath},#{desct},#{status},#{date})
+    </insert>
+    <!--查一个-->
+    <select id="queryOne" parameterType="banner" resultType="Banner">
+      select id,title,imgPath,desct,status,date from banner where id=#{id}
+    </select>
+    <!--根据状态查所有-->
+    <select id="queryAllPage" parameterType="Integer" resultType="Banner">
+      select * from banner where status=#{status} limit #{start},#{rows}
+    </select>
+    <!--统计总条数-->
+    <select id="queryAllCount" resultType="long">
+        select count(id) from banner where status=#{status}
+    </select>
+    <!--修改-->
+    <update id="update" parameterType="Banner">
+        update banner set title=#{title},desct=#{desct},status=#{status} where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete" parameterType="Banner">
+        delete from banner where id=#{id}
+    </delete>
+    <!--批量删除-->
+    <delete id="deleteAny" parameterType="Integer">
+        delete from banner where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

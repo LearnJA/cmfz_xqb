@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+    <resultMap id="albumResult" type="Album">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="publishDate" column="publishDate"/>
+        <result property="count" column="count"/>
+        <result property="faceImg" column="faceImg"/>
+        <collection property="children" ofType="Chapter">
+            <id property="id" column="cid"/>
+            <result property="title" column="ctitle"/>
+            <result property="size" column="csize"/>
+            <result property="duration" column="cduration"/>
+            <result property="downPath" column="cdownPath"/>
+            <result property="uploadDate" column="cuploadDate"/>
+            <result property="album_id" column="calbum_id"/>
+        </collection>
+    </resultMap>
+    <!-- 插入 -->
+    <insert id="insert" parameterType="Album" useGeneratedKeys="true">
+      insert into album values (#{id},#{title},#{publishDate},#{count},#{faceImg})
+    </insert>
+    <!--修改信息-->
+    <update id="update" parameterType="Album">
+        <!--update album
+        <set>
+            <if test="title!=null and title!=' '">
+                title=#{title},
+            </if>
+            <if test="publishDate!=null and publishDate!=' '">
+                publishDate=#{publishDate},
+            </if>
+            <if test="count!=null and count!=' '">
+                count=#{count},
+            </if>
+            <if test="faceImg!=null and faceImg!=' '">
+                faceImg=#{faceImg}
+            </if>
+        </set>
+         where id=#{id}-->
+        update album set title=#{title},publishDate=#{publishDate},count=#{count},faceImg=#{faceImg} where id=#{id}
+    </update>
+    <!--删除专辑-->
+    <delete id="delete" parameterType="Album">
+        delete from album where id=#{id}
+    </delete>
+    <!-- 查所有 -->
+    <select id="queryAll" resultMap="albumResult">
+       select * from album
+    </select>
+    <!--级联章节查询-->
+    <select id="queryAllChpter" parameterType="Integer" resultMap="albumResult">
+      select a.id,a.title,a.publishDate,a.count,a.faceImg,
+              c.id cid,c.title ctitle,c.size csize,c.duration cdurction,c.downPath cdownPath,
+              c.uploadDate cuploadDate,c.album_id calbum_id
+       from album a
+       left join chapter c on a.id=c.album_id
+       limit #{start},#{rows}
+    </select>
+    <!--查一个-->
+    <select id="queryOne" parameterType="Album" resultType="Album">
+        select * from album where id=#{id}
+    </select>
+    <!--统计数量-->
+    <select id="queryAllCount" resultType="Long">
+      select count(id) from album
+    </select>
+</mapper>

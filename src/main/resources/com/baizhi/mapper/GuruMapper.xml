@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.GuruDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="Guru" useGeneratedKeys="true">
+      insert into guru values (#{id},#{name},#{headPic},#{status})
+    </insert>
+    <!--修改信息-->
+    <update id="update" parameterType="Guru">
+        update guru
+          <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="headPic!=null and headPic!=''">
+                headPic=#{headPic},
+            </if>
+            <if test="status!=null and status!=''">
+                status=#{status}
+            </if>
+          </set>
+          where id=#{id}
+    </update>
+    <!--删除-->
+    <delete id="delete" parameterType="Guru">
+        delete from guru where id=#{id}
+    </delete>
+    <!--批量删除-->
+    <delete id="deleteAny" parameterType="Integer">
+        delete from guru where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- 条件查所有 -->
+    <select id="queryAllPage" parameterType="Integer" resultType="Guru">
+      select * from guru where status=#{status} limit #{start},#{rows}
+    </select>
+    <!--查询某状态对象数量-->
+    <select id="queryAllCount" resultType="long">
+        select count(id) from guru where status=#{status}
+    </select>
+</mapper>

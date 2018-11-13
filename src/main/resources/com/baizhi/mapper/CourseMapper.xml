@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--suppress ALL -->
+<mapper namespace="com.baizhi.dao.CourseDAO">
+    <!-- 插入 -->
+    <insert id="insert" parameterType="User" useGeneratedKeys="true">
+      insert into course values (#{id},#{title},#{flag},#{creatTime},#{user_id})
+    </insert>
+    <!-- 用户查所有 -->
+    <select id="queryOneAll" parameterType="Course" resultType="Course">
+      select * from course where user_id=#{user_id} or user_id=''
+    </select>
+    <!--查询所有必修课程-->
+    <select id="queryAllMust" resultType="Course">
+      select * from course where user_id=''
+    </select>
+    <!--查询所有用户的选修课-->
+    <select id="queryAllPage" resultType="Course">
+      select * from course where user_id!=''
+    </select>
+    <!--统计所有用户自选课-->
+    <select id="queryAllUserCourseCount" resultType="Long">
+      select count(id) from course where user_id!=''
+    </select>
+    <!--删除课程-->
+    <delete id="delete" parameterType="Course">
+        delete from course where id=#{id}
+    </delete>
+    <!--修改课程进度-->
+    <update id="update" parameterType="Course">
+        update course flag=#{flag} where id=#{id}
+    </update>
+</mapper>
